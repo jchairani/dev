@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import "../adminPost/adminPostStyle.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
+import {AlertProvider, useAlert} from 'react-alert-with-buttons';
 import { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom';
 
 export default function AdminPost() {
   const [description, setDescription] = useState();
@@ -11,12 +14,60 @@ export default function AdminPost() {
   const [title, setTitle] = useState();
   const [date, setDate] = useState(new Date());
 
+  const navigate = useNavigate();
+  const alert = useAlert();
+
   const resetForm = () => {
     setReading("");
     setTitle("");
     setDate(new Date());
     setDescription("");
   };
+
+  const submitForm = () => {
+    var data = JSON.stringify({
+      "title": title,
+      "reading": reading,
+      "description": description,
+      "dates": date
+    });
+    
+    var config = {
+      method: 'post',
+    maxBodyLength: Infinity,
+      url: 'http://localhost:8000/api/reads/create',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      alert.open({
+        message: "Post successfuly created",
+        buttons: [
+          {label: "OK",
+        onClick: () => {
+          alert.close();
+        },
+      style: {
+        backgroundColor: "blue",
+        borderRadius : 20,
+        color : "white"
+      }}
+        ]
+      })
+      navigate("/");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    
+  }
+
 
   useEffect(() => {
     const myText = document.getElementById("contentText");
@@ -64,7 +115,8 @@ export default function AdminPost() {
         <button className="mb-3 mx-2 btn btn-outline-dark" onClick={resetForm}>
           Reset
         </button>
-        <button className="mb-3 mx-2 btn btn-outline-dark">Post</button>
+
+        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={submitForm}>Post</button>
         <form className="row">
           <div className="form-group">
             <input
