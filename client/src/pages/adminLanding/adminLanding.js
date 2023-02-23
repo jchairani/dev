@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import AdminHeader from '../../components/adminHeader/AdminHeader';
-import Content from '../../components/content/content';
+import Content from '../../components/content/Content';
 
 export default function AdminLanding(){
     return(

@@ -1,5 +1,5 @@
-import Header from '../../components/header/header'
-import Content from '../../components/content/content'
+import Header from '../../components/header/Header'
+import Content from '../../components/content/Content'
 import 'bootstrap/dist/css/bootstrap.css';
 
 function mainPage(){
