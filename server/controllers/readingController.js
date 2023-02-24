@@ -26,7 +26,7 @@ module.exports.getAllReading = async(req,res,next) => {
 module.exports.deleteReading = async(req,res,next) => {
     try{
         // const deleteReads = await Reading.findByIdAndUpdate(req.params.id, {$set: req.body}, {new:true});
-        const deleted = await Reading.deleteOne({id: req.params.id});
+        const deleted = await Reading.deleteOne({_id: req.params.id});
         res.status(200).json(deleted)
     }catch(err){
         next(err);
