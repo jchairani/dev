@@ -49,7 +49,7 @@ const AdminCardItem = ({ item }) => {
                     <h3 className='mb-1'>
                         <a className='text-dark text-decoration-none' href='#'>{item.title}</a>
                     </h3>
-                    <div className='mb-1 text-muted'>{formatDate(item.dates)}</div>
+                    <div className='mb-1 text-muted'>{item.dates}</div>
                     <p className='card-text mb-auto'>
                         {item.description}
                     </p>

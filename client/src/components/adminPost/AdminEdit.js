@@ -4,17 +4,17 @@ import "../adminPost/adminPostStyle.css";
 import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
-import {AlertProvider, useAlert} from 'react-alert-with-buttons';
+import { AlertProvider, useAlert } from 'react-alert-with-buttons';
 import { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom';
-import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { formatDate } from "../../utils/dateFormat";
+
 export default function AdminEdit() {
   const [description, setDescription] = useState();
   const [reading, setReading] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState();
-
-  const [data,setData] = useState([]);
+  const [date, setDate] = useState(new Date().toISOString().substring(0,10));
+  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
   const alert = useAlert();
@@ -33,51 +33,54 @@ export default function AdminEdit() {
       "description": description,
       "dates": date
     });
-    
+
     var config = {
       method: 'post',
-    maxBodyLength: Infinity,
+      maxBodyLength: Infinity,
       url: 'http://localhost:8000/api/reads/create',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json'
       },
-      data : data
+      data: data
     };
-    
-    axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      alert.open({
-        message: "Post successfuly created",
-        buttons: [
-          {label: "OK",
-        onClick: () => {
-          alert.close();
-        },
-      style: {
-        backgroundColor: "blue",
-        borderRadius : 20,
-        color : "white"
-      }}
-        ]
-      })
-      navigate("/");
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
 
-    
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        alert.open({
+          message: "Post successfuly created",
+          buttons: [
+            {
+              label: "OK",
+              onClick: () => {
+                alert.close();
+              },
+              style: {
+                backgroundColor: "blue",
+                borderRadius: 20,
+                color: "white"
+              }
+            }
+          ]
+        })
+        navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
   }
 
 
-//BENERIN unDEFINED VALUE karena kecepetan fetch before this function is finished
-  const fetchData = async() => {
-    try{
-        await axios.get(`/reads/${localStorage.getItem('editKey')}`)
-        .then(res => setData(res.data));
-    }catch(err){
-        console.log(err);
+  //BENERIN unDEFINED VALUE karena kecepetan fetch before this function is finished
+  const fetchData = async () => {
+    try {
+      await axios.get(`/reads/${localStorage.getItem('editKey')}`)
+        .then(res => setData(res.data))
+        .then(setDate(data.dates));
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -91,13 +94,7 @@ export default function AdminEdit() {
     });
     fetchData();
 
-    if(data != null){
-      let moveDate = data.dates;
-      console.log(dayjs(moveDate).format('DD/MM/YYYY'));
-      setDate("hello");
-    }
-
-  },[0]);
+  }, []);
 
   return (
     <div className="text-center">
@@ -111,6 +108,7 @@ export default function AdminEdit() {
               <img src={BIC} className="img-fluid " />
             </Link>
           </div>
+
           <div className="col-4 d-flex justify-content-center align-items-center my-3">
             <a href="#">
               <svg
@@ -129,7 +127,7 @@ export default function AdminEdit() {
         </div>
         <hr></hr>
       </header>
-      
+
       <div className="container">
         <button className="mb-3 mx-2 btn btn-outline-dark" onClick={resetForm}>
           Reset
@@ -161,13 +159,12 @@ export default function AdminEdit() {
             />
           </div>
           <div className="form-group">
-            <DatePicker
-              selected={date}
+            <input type="date"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
-              portalId="root-portal"
-              defaultValue={date || new Date()}
-              onChange={(date) => setDate(date)}
+              onChange={(e) => e.target.value}
+              value={data.dates||new Date().toISOString().substring(0,10)}
             />
+            
           </div>
           <div className="form-group grow-wrap">
             <textarea

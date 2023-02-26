@@ -14,7 +14,7 @@ export default function AdminPost() {
   const [description, setDescription] = useState();
   const [reading, setReading] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date().toISOString().substring(0,10));
 
   const navigate = useNavigate();
   const alert = useAlert();
@@ -102,7 +102,7 @@ export default function AdminPost() {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-search mx-3"
+                className="bi bi-search mx-3"
                 viewBox="0 0 16 16"
               >
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -144,13 +144,16 @@ export default function AdminPost() {
             />
           </div>
           <div className="form-group">
-            <DatePicker
-              // dateFormat="dd//MM/yyyy"
+            <input type="date"
+            className="col-7 form-control-lg mb-4 border border-dark rounded"
+            
+            onChange={((e) => setDate(e.target.value))} />
+            {/* <DatePicker
+              dateFormat="dd//MM/yyyy"
               selected={date}
-              className="col-7 form-control-lg mb-4 border border-dark rounded"
               portalId="root-portal"
               onChange={(date) => setDate(date)}
-            />
+            /> */}
           </div>
           <div className="form-group grow-wrap">
             <textarea
