@@ -13,7 +13,7 @@ export default function AdminEdit() {
   const [description, setDescription] = useState();
   const [reading, setReading] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState(new Date().toISOString().substring(0,10));
+  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function AdminEdit() {
     setDescription("");
   };
 
-  const submitForm = () => {
+  const submitForm = (id) => {
     var data = JSON.stringify({
       "title": title,
       "reading": reading,
@@ -35,9 +35,9 @@ export default function AdminEdit() {
     });
 
     var config = {
-      method: 'post',
+      method: 'put',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8000/api/reads/create',
+      url: `http://localhost:8000/api/reads/${id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -48,7 +48,7 @@ export default function AdminEdit() {
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         alert.open({
-          message: "Post successfuly created",
+          message: "Post successfuly edited",
           buttons: [
             {
               label: "OK",
@@ -71,9 +71,6 @@ export default function AdminEdit() {
 
 
   }
-
-
-  //BENERIN unDEFINED VALUE karena kecepetan fetch before this function is finished
   const fetchData = async () => {
     try {
       await axios.get(`/reads/${localStorage.getItem('editKey')}`)
@@ -94,7 +91,7 @@ export default function AdminEdit() {
     });
     fetchData();
 
-  }, []);
+  }, [0]);
 
   return (
     <div className="text-center">
@@ -133,7 +130,8 @@ export default function AdminEdit() {
           Reset
         </button>
 
-        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={submitForm}>Edit</button>
+        <button className="mb-3 mx-2 btn btn-outline-dark"
+          onClick={() =>submitForm(data._id)}>Edit</button>
         <form className="row">
           <div className="form-group">
             <input
@@ -162,9 +160,9 @@ export default function AdminEdit() {
             <input type="date"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               onChange={(e) => e.target.value}
-              value={data.dates||new Date().toISOString().substring(0,10)}
+              value={data.dates || new Date().toISOString().substring(0, 10)}
             />
-            
+
           </div>
           <div className="form-group grow-wrap">
             <textarea
