@@ -22,6 +22,15 @@ module.exports.getAllReading = async(req,res,next) => {
     }
 }
 
+//GET BY ID
+module.exports.getReadingByID = async(req,res,next) => {
+    try{
+        const myHotels = await Reading.findById(req.params.id);
+        res.status(200).json(myHotels);
+    }catch(err){
+        next(err);
+    }
+}
 //DELETE BY ID
 module.exports.deleteReading = async(req,res,next) => {
     try{

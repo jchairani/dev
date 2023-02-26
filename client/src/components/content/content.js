@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {useEffect, useState} from 'react';
 import CardItem from '../cardItem/CardItem';
 import axios from 'axios';
+import { formatDate } from '../../utils/dateFormat';
 export default function Content(){
 
     const [data,setData] = useState([]);

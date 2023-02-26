@@ -6,6 +6,7 @@ import MainPage from '../../client/src/pages/MainPage/mainPage'
 import Login from '../../client/src/pages/login/login'
 import AdminLanding from './pages/adminLanding/adminLanding';
 import AdminPost from './components/adminPost/AdminPost';
+import AdminEdit from './components/adminPost/AdminEdit';
 import { AlertProvider } from 'react-alert-with-buttons';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,6 +19,7 @@ root.render(
           {/* <Route path="login" element={<Login />} /> */}
           <Route path="/login" element={<AdminLanding />} />
           <Route path="/adminPost" element={<AdminPost />} />
+          <Route path='/adminEdit' element={<AdminEdit />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

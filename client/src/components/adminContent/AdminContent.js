@@ -16,7 +16,6 @@ export default function AdminContent(){
 
     useEffect(() => {
         fetchData();
-        console.log(data);
     },[0])
 
     return (

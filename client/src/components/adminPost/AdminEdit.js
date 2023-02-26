@@ -1,20 +1,20 @@
 import BIC from "../../images/bic_logo.png";
 import { Link } from "react-router-dom";
 import "../adminPost/adminPostStyle.css";
-import DatePicker from "react-datepicker";
+import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import {AlertProvider, useAlert} from 'react-alert-with-buttons';
 import { useEffect, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { formatDate } from "../../utils/dateFormat";
-
-
-export default function AdminPost() {
+import dayjs from 'dayjs';
+export default function AdminEdit() {
   const [description, setDescription] = useState();
   const [reading, setReading] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
+
+  const [data,setData] = useState([]);
 
   const navigate = useNavigate();
   const alert = useAlert();
@@ -71,6 +71,17 @@ export default function AdminPost() {
   }
 
 
+//BENERIN unDEFINED VALUE karena kecepetan fetch before this function is finished
+  const fetchData = async() => {
+    try{
+        await axios.get(`/reads/${localStorage.getItem('editKey')}`)
+        .then(res => setData(res.data));
+    }catch(err){
+        console.log(err);
+    }
+  }
+
+
   useEffect(() => {
     const myText = document.getElementById("contentText");
     myText.style.cssText = `height: ${myText.scrollHeight}px; overflow:hidden`;
@@ -78,10 +89,15 @@ export default function AdminPost() {
       this.style.height = "auto";
       this.style.height = `${this.scrollHeight}px`;
     });
+    fetchData();
 
+    if(data != null){
+      let moveDate = data.dates;
+      console.log(dayjs(moveDate).format('DD/MM/YYYY'));
+      setDate("hello");
+    }
 
-    
-  });
+  },[0]);
 
   return (
     <div className="text-center">
@@ -102,7 +118,7 @@ export default function AdminPost() {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-search mx-3"
+                className="bi bi-search mx-3"
                 viewBox="0 0 16 16"
               >
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -119,14 +135,15 @@ export default function AdminPost() {
           Reset
         </button>
 
-        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={submitForm}>Post</button>
+        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={submitForm}>Edit</button>
         <form className="row">
           <div className="form-group">
             <input
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="readingText"
-              placeholder="Reading"
+
+              defaultValue={data.reading || ''}
               onChange={(e) => {
                 setReading(e.target.value);
               }}
@@ -137,7 +154,7 @@ export default function AdminPost() {
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="titleText"
-              placeholder="Title"
+              defaultValue={data.title || ''}
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
@@ -145,10 +162,10 @@ export default function AdminPost() {
           </div>
           <div className="form-group">
             <DatePicker
-              // dateFormat="dd//MM/yyyy"
               selected={date}
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               portalId="root-portal"
+              defaultValue={date || new Date()}
               onChange={(date) => setDate(date)}
             />
           </div>
@@ -157,7 +174,8 @@ export default function AdminPost() {
               rows="4"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="contentText"
-              placeholder="Say Something..."
+
+              defaultValue={data.description || ''}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
