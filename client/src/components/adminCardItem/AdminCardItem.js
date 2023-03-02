@@ -33,11 +33,11 @@ const AdminCardItem = ({ item }) => {
             <div className='card flex-md-row mb-4 shadow-sm h-md-250'>
                 <div className='card-body d-inline-flex flex-column'>
                     <div className='position-absolute mx-2 mt-3 top-0 end-0'>
-                        <button className='btn btn-outline-dark btn-sm'
+                        <button className='btn btn-outline-dark btn-sm mx-2'
                         onClick={()=>{
                             editPost(item._id)
                         }}>Edit</button>
-                        <button className='btn btn-outline-dark btn-sm' 
+                        <button className='btn btn-outline-dark btn-sm mx-1' 
                         onClick={()=>{
                             deletePost(item._id)
                         }}

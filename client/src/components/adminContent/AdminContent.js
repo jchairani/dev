@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {useEffect, useState} from 'react';
 import AdminCardItem from '../adminCardItem/AdminCardItem';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 export default function AdminContent(){
 
     const [data,setData] = useState([]);
@@ -16,10 +17,11 @@ export default function AdminContent(){
 
     useEffect(() => {
         fetchData();
-    },[0])
+    },[])
 
     return (
         <div className='row mb-2 justify-content-center'>
+
             {data.map(item => (
                 <AdminCardItem item={item} key={item._id} /> 
             ))}

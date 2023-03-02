@@ -41,7 +41,8 @@ export default function AdminPost() {
       headers: { 
         'Content-Type': 'application/json'
       },
-      data : data
+      data : data,
+      withCredentials: true,
     };
     
     axios(config)
@@ -61,7 +62,7 @@ export default function AdminPost() {
       }}
         ]
       })
-      navigate("/");
+      navigate("/adminLanding");
     })
     .catch(function (error) {
       console.log(error);
@@ -72,6 +73,7 @@ export default function AdminPost() {
 
 
   useEffect(() => {
+    console.log(document.cookie);
     const myText = document.getElementById("contentText");
     myText.style.cssText = `height: ${myText.scrollHeight}px; overflow:hidden`;
     myText.addEventListener("input", function () {
@@ -79,7 +81,9 @@ export default function AdminPost() {
       this.style.height = `${this.scrollHeight}px`;
     });
 
-
+    if(!document.cookie){
+      navigate("/login");
+    }
     
   });
 
@@ -126,6 +130,7 @@ export default function AdminPost() {
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="readingText"
+              value={reading}
               placeholder="Reading"
               onChange={(e) => {
                 setReading(e.target.value);
@@ -138,6 +143,7 @@ export default function AdminPost() {
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="titleText"
               placeholder="Title"
+              value={title}
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
@@ -145,6 +151,7 @@ export default function AdminPost() {
           </div>
           <div className="form-group">
             <input type="date"
+            value={date}
             className="col-7 form-control-lg mb-4 border border-dark rounded"
             
             onChange={((e) => setDate(e.target.value))} />
@@ -158,6 +165,7 @@ export default function AdminPost() {
           <div className="form-group grow-wrap">
             <textarea
               rows="4"
+              value={description}
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="contentText"
               placeholder="Say Something..."

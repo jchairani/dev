@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const readsRoute = require('./routes/read');
 const userRoute = require('./routes/user');
+const authRoute = require('./routes/auth');
 
 const URI = process.env.MONGO;
 mongoose.connect(URI, {
@@ -27,10 +28,27 @@ mongoose.connection.on("connected", () => {
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+
+app.use(cors({
+    credentials:true,
+    origin: "http://localhost:3000",
+    optionsSuccessStatus: 200,
+}));
 
 app.use('/api/reads',readsRoute);
 app.use('/api/user',userRoute);
+app.use('/api/auth',authRoute);
+
+app.use((err,req,res,next) => {
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong";
+    return res.status(errorStatus).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+        stack: err.stack
+    })
+})
 
 app.listen(8000,()=>{
     console.log("Listening on port 8000");

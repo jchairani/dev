@@ -4,6 +4,7 @@ const userModel = require('../models/user.model');
 //CREATE
 module.exports.createReading = async(req,res,next) => {
     const newReads = new Reading(req.body);
+
     try{
         const savedReading = await newReads.save();
         res.status(200).json(savedReading);
