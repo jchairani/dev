@@ -75,7 +75,10 @@ export default function AdminEdit() {
     try {
       await axios.get(`/reads/${localStorage.getItem('editKey')}`)
         .then(res => setData(res.data))
-        .then(setDate(data.dates));
+        .then(setDate(data.dates))
+        .then(setTitle(data.title))
+        .then(setReading(data.reading))
+        .then(setDescription(data.description))
     } catch (err) {
       console.log(err);
     }
@@ -138,8 +141,8 @@ export default function AdminEdit() {
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="readingText"
-
-              defaultValue={data.reading || ''}
+              placeholder="Reading"
+              defaultValue={reading || ''}
               onChange={(e) => {
                 setReading(e.target.value);
               }}
@@ -150,7 +153,8 @@ export default function AdminEdit() {
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="titleText"
-              defaultValue={data.title || ''}
+              defaultValue={title || ''}
+              placeholder="Title"
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
@@ -160,7 +164,7 @@ export default function AdminEdit() {
             <input type="date"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               onChange={(e) => e.target.value}
-              value={data.dates || new Date().toISOString().substring(0, 10)}
+              defaultValue={date || 'dddd-mm-yyyy'}
             />
 
           </div>
@@ -169,8 +173,8 @@ export default function AdminEdit() {
               rows="4"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="contentText"
-
-              defaultValue={data.description || ''}
+              placeholder="Description"
+              defaultValue={˝description || ''}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
