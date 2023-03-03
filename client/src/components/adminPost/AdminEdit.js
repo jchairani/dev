@@ -1,12 +1,11 @@
 import BIC from "../../images/bic_logo.png";
 import { Link } from "react-router-dom";
 import "../adminPost/adminPostStyle.css";
-import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import { AlertProvider, useAlert } from 'react-alert-with-buttons';
-import { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export default function AdminEdit() {
@@ -17,6 +16,8 @@ export default function AdminEdit() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const alert = useAlert();
+  const location = useLocation();
+  const id = location.state.id;
 
   const resetForm = () => {
     setReading('');
@@ -32,9 +33,8 @@ export default function AdminEdit() {
   };
 
 
-  const editForm = async (idx) => {
+  const editForm = async () => {
     setData({
-      _id: idx,
       reading: reading,
       title: title,
       description: description,
@@ -48,11 +48,11 @@ export default function AdminEdit() {
         "description": description,
         "dates": date
       });
-      console.log(idx);
+
       var config = {
         method: 'put',
         maxBodyLength: Infinity,
-        url: `http://localhost:8000/api/reads/${localStorage.getItem('editKey')}`,
+        url: `http://localhost:8000/api/reads/${id}`,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -89,7 +89,7 @@ export default function AdminEdit() {
 
   const fetchData = async () => {
     try {
-      await axios.get(`/reads/${localStorage.getItem('editKey')}`)
+      await axios.get(`/reads/${id}`)
         .then(res => setData(res.data))
     } catch (err) {
       console.log(err);

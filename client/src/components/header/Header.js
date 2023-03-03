@@ -30,8 +30,8 @@ export default function Header(){
             </div>
             <hr></hr>
             <div className='row'>
-                <div className='py-2 text-center'>
-                    <h4>{month} {dateNum} {year}</h4>
+                <div className='text-center '>
+                    <h5>{month} {dateNum} {year}</h5>
                 </div>
                 {/* <div className='nav-scroller py-1 mb-2'>
                     <nav className='nav d-flex justify-content-between'>

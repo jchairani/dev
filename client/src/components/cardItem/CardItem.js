@@ -22,7 +22,10 @@ const CardItem = ({item}) => {
                         <a className='text-dark text-decoration-none' href='#'>{item.title}</a>
                     </h3>
                     <div className='mb-1 text-muted'>{(item.dates)}</div>
-                    <p className='card-text mb-auto truncateText'>
+                    <p className='card-text mb-auto'
+                    style={{whiteSpace:'nowrap',maxWidth:'90%',
+                    overflow:'hidden',textOverflow:'ellipsis',
+                    }}>
                         {item.description}
                     </p>
                     <a href=""  onClick={() => openContent(item._id)}>Continue reading</a>
