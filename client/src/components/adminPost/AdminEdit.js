@@ -15,12 +15,10 @@ export default function AdminEdit() {
   const [title, setTitle] = useState();
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [data, setData] = useState([]);
-  const [id, setID] = useState();
   const navigate = useNavigate();
   const alert = useAlert();
 
-  const resetForm = (idx) => {
-    setID(idx);
+  const resetForm = () => {
     setReading('');
     setTitle('');
     setDescription('');
@@ -29,7 +27,7 @@ export default function AdminEdit() {
       reading: '',
       title: '',
       description: '',
-      dates: Date.now()
+      dates: new Date().toISOString().substring(0,10)
     });
   };
 
@@ -43,17 +41,18 @@ export default function AdminEdit() {
       dates: date
     })
 
+
       var newData = JSON.stringify({
         "title": title,
         "reading": reading,
         "description": description,
         "dates": date
       });
-
+      console.log(idx);
       var config = {
         method: 'put',
         maxBodyLength: Infinity,
-        url: `http://localhost:8000/api/reads/${data._id && data._id}`,
+        url: `http://localhost:8000/api/reads/${localStorage.getItem('editKey')}`,
         headers: {
           'Content-Type': 'application/json'
         },
