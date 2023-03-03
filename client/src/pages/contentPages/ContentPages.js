@@ -1,13 +1,17 @@
 import Header from '../../components/header/Header'
-import Content from '../../components/content/Content'
 import 'bootstrap/dist/css/bootstrap.css';
+import { useEffect, useState } from 'react';
 
-function MainPage(){
+function ContentPage(){
+    const [id,setID] = useState();
+    useEffect(() => {
+        
+    },[])
     return (
         <div className='container'>
             <Header />
-            <Content />
+
         </div>
     )
 }
-export default MainPage;
+export default ContentPage;
