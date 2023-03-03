@@ -34,7 +34,7 @@ export default function AdminEdit() {
   };
 
 
-  const editForm = (idx) => {
+  const editForm = async (idx) => {
     setData({
       _id: idx,
       reading: reading,
@@ -43,14 +43,13 @@ export default function AdminEdit() {
       dates: date
     })
 
-    if(data.reading !== undefined && id !== undefined){
       var newData = JSON.stringify({
-        "title": data.title,
-        "reading": data.reading,
-        "description": data.description,
-        "dates": data.dates
+        "title": title,
+        "reading": reading,
+        "description": description,
+        "dates": date
       });
-      
+
       var config = {
         method: 'put',
         maxBodyLength: Infinity,
@@ -60,11 +59,8 @@ export default function AdminEdit() {
         },
         data: newData
       };
-      console.log(data);
-
       
-      
-      axios(config)
+      await axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
           alert.open({
@@ -89,7 +85,7 @@ export default function AdminEdit() {
           console.log(error);
         });
       
-    }
+    
   }
 
   const fetchData = async () => {
@@ -114,6 +110,7 @@ export default function AdminEdit() {
 
     styleBigBox();
     fetchData();
+    console.log(data);
   },[]);
 
 
