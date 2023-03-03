@@ -17,11 +17,11 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/adminMain" element={<AdminLanding />} />
           <Route path="/adminPost" element={<AdminPost />} />
           <Route path='/adminEdit' element={<AdminEdit />} />
-          <Route path='/read/:id' element={<ContentPage />} />
+          <Route path='/read' element={<ContentPage />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

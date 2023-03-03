@@ -4,7 +4,12 @@ const CardItem = ({item}) => {
     const navigate = useNavigate();
 
     const openContent = (idx) => {
-        navigate(`/read/${idx}`);
+        navigate(`/read`,
+        {
+            state: {
+                id: idx
+            }
+        });
     }
     return (
         <div className='col-md-6'>

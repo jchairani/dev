@@ -52,7 +52,6 @@ const AdminCardItem = ({ item }) => {
                     <p className='card-text mb-auto'>
                         {item.description}
                     </p>
-                    <a href="#">Continue reading</a>
                 </div>
             </div>
         </div>
