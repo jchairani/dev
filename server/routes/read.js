@@ -7,7 +7,7 @@ router.get('/',getAllReading);
 router.get('/:id',getReadingByID);
 router.post('/create',verifyAdmin,createReading);
 router.delete('/:id',verifyAdmin,deleteReading);
-router.put('/:id',verifyAdmin,updateReading);
+router.put('/:id',updateReading);
 
 
 module.exports = router;

@@ -5,9 +5,9 @@ import DatePicker, { setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import { AlertProvider, useAlert } from 'react-alert-with-buttons';
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from "../../utils/dateFormat";
+
 
 export default function AdminEdit() {
   const [description, setDescription] = useState();
@@ -15,86 +15,107 @@ export default function AdminEdit() {
   const [title, setTitle] = useState();
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [data, setData] = useState([]);
-
+  const [id, setID] = useState();
   const navigate = useNavigate();
   const alert = useAlert();
 
-  const resetForm = () => {
-    setReading("");
-    setTitle("");
-    setDate(new Date());
-    setDescription("");
+  const resetForm = (idx) => {
+    setID(idx);
+    setReading('');
+    setTitle('');
+    setDescription('');
+    setDate(Date.now());
+    setData({
+      reading: '',
+      title: '',
+      description: '',
+      dates: Date.now()
+    });
   };
 
-  const submitForm = (id) => {
-    var data = JSON.stringify({
-      "title": title,
-      "reading": reading,
-      "description": description,
-      "dates": date
-    });
 
-    var config = {
-      method: 'put',
-      maxBodyLength: Infinity,
-      url: `http://localhost:8000/api/reads/${id}`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
+  const editForm = (idx) => {
+    setData({
+      _id: idx,
+      reading: reading,
+      title: title,
+      description: description,
+      dates: date
+    })
 
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        alert.open({
-          message: "Post successfuly edited",
-          buttons: [
-            {
-              label: "OK",
-              onClick: () => {
-                alert.close();
-              },
-              style: {
-                backgroundColor: "blue",
-                borderRadius: 20,
-                color: "white"
-              }
-            }
-          ]
-        })
-        navigate("/");
-      })
-      .catch(function (error) {
-        console.log(error);
+    if(data.reading !== undefined && id !== undefined){
+      var newData = JSON.stringify({
+        "title": data.title,
+        "reading": data.reading,
+        "description": data.description,
+        "dates": data.dates
       });
+      
+      var config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `http://localhost:8000/api/reads/${data._id}`,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: newData
+      };
+      console.log(data);
 
-
+      
+      
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+          alert.open({
+            message: "Post successfuly edited",
+            buttons: [
+              {
+                label: "OK",
+                onClick: () => {
+                  alert.close();
+                },
+                style: {
+                  backgroundColor: "blue",
+                  borderRadius: 20,
+                  color: "white"
+                }
+              }
+            ]
+          })
+          navigate("/adminMain");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      
+    }
   }
+
   const fetchData = async () => {
     try {
       await axios.get(`/reads/${localStorage.getItem('editKey')}`)
         .then(res => setData(res.data))
-        .then(setDate(data.dates))
-        .then(setTitle(data.title))
-        .then(setReading(data.reading))
-        .then(setDescription(data.description))
     } catch (err) {
       console.log(err);
     }
   }
 
-
-  useEffect(() => {
+  const styleBigBox = () => {
     const myText = document.getElementById("contentText");
     myText.style.cssText = `height: ${myText.scrollHeight}px; overflow:hidden`;
     myText.addEventListener("input", function () {
       this.style.height = "auto";
       this.style.height = `${this.scrollHeight}px`;
     });
-    fetchData();
+  }
 
-  }, [0]);
+  useEffect(() => {
+
+    styleBigBox();
+    fetchData();
+  },[]);
+
 
   return (
     <div className="text-center">
@@ -129,12 +150,9 @@ export default function AdminEdit() {
       </header>
 
       <div className="container">
-        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={resetForm}>
-          Reset
-        </button>
-
-        <button className="mb-3 mx-2 btn btn-outline-dark"
-          onClick={() =>submitForm(data._id)}>Edit</button>
+        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={() => resetForm(data._id)}>Reset</button>
+        <button className="mb-3 mx-2 btn btn-outline-dark" onClick={() => editForm(data._id)}>Edit</button>
+        <p>{reading}</p>
         <form className="row">
           <div className="form-group">
             <input
@@ -142,7 +160,7 @@ export default function AdminEdit() {
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="readingText"
               placeholder="Reading"
-              defaultValue={reading || ''}
+              defaultValue={data.reading}
               onChange={(e) => {
                 setReading(e.target.value);
               }}
@@ -153,7 +171,7 @@ export default function AdminEdit() {
               type="text"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="titleText"
-              defaultValue={title || ''}
+              defaultValue={data.title || ''}
               placeholder="Title"
               onChange={(e) => {
                 setTitle(e.target.value);
@@ -164,7 +182,7 @@ export default function AdminEdit() {
             <input type="date"
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               onChange={(e) => e.target.value}
-              defaultValue={date || 'dddd-mm-yyyy'}
+              defaultValue={data.dates}
             />
 
           </div>
@@ -174,7 +192,7 @@ export default function AdminEdit() {
               className="col-7 form-control-lg mb-4 border border-dark rounded"
               id="contentText"
               placeholder="Description"
-              defaultValue={˝description || ''}
+              defaultValue={data.description}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
