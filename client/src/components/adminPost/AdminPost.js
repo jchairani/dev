@@ -7,7 +7,6 @@ import axios from 'axios';
 import {AlertProvider, useAlert} from 'react-alert-with-buttons';
 import { useEffect, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import { formatDate } from "../../utils/dateFormat";
 
 
 export default function AdminPost() {

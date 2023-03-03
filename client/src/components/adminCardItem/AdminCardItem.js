@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
 import AdminPost from '../adminPost/AdminPost';
 import {useNavigate} from 'react-router-dom';
-import { formatDate } from '../../utils/dateFormat';
 const AdminCardItem = ({ item }) => {
     const navigate = useNavigate();
 

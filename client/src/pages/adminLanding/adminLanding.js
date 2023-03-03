@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 export default function AdminLanding(){
-    const [cookie,setCookie] = useState(document.cookie);
     const navigate = useNavigate();
 
     function checkCookie(){
