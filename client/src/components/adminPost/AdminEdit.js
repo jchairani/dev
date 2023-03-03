@@ -53,7 +53,7 @@ export default function AdminEdit() {
       var config = {
         method: 'put',
         maxBodyLength: Infinity,
-        url: `http://localhost:8000/api/reads/${data._id}`,
+        url: `http://localhost:8000/api/reads/${data._id && data._id}`,
         headers: {
           'Content-Type': 'application/json'
         },

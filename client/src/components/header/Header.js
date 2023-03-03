@@ -2,6 +2,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import BIC from '../../images/bic_logo.png';
 import {Link} from 'react-router-dom';
 export default function Header(){
+    const date = new Date();
+    const month = date.toLocaleString('default',{month: 'long'});
+    const dateNum = date.toISOString().substring(8,10);
+    const year = date.toISOString().substring(0,4);
     return (
         <div className='text-center'>
             <header className='py-3'>
@@ -27,9 +31,9 @@ export default function Header(){
             <hr></hr>
             <div className='row'>
                 <div className='py-2 text-center'>
-                    <h4>Our February Devotions</h4>
+                    <h4>{month} {dateNum} {year}</h4>
                 </div>
-                <div className='nav-scroller py-1 mb-2'>
+                {/* <div className='nav-scroller py-1 mb-2'>
                     <nav className='nav d-flex justify-content-between'>
                         <a className='p-1 text-muted' href='#'>January</a>
                         <a className='p-1 text-muted' href='#'>February</a>
@@ -44,7 +48,7 @@ export default function Header(){
                         <a className='p-1 text-muted' href='#'>November</a>
                         <a className='p-1 text-muted' href='#'>December</a>
                     </nav>
-                </div>
+                </div> */}
             </div>
             <hr></hr>
         </header>
