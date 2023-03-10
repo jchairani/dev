@@ -29,6 +29,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const buildPath = path.join(__dirname, 'client', 'build');
+app.use(express.static(buildPath));
+
 app.use(cors({
     credentials:true,
     origin: "http://localhost:3000",

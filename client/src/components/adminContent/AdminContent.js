@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {useEffect, useState} from 'react';
 import AdminCardItem from '../adminCardItem/AdminCardItem';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
 export default function AdminContent(){
 
     const [data,setData] = useState([]);
