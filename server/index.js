@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 
 const readsRoute = require('./routes/read');
 const userRoute = require('./routes/user');
@@ -29,7 +30,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const buildPath = path_join(__dirname, '../client/build');
+const buildPath = path.join(__dirname, '../client/build');
 app.use(express.static(buildPath));
 
 app.use(cors({
