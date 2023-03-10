@@ -29,7 +29,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const buildPath = path.join(__dirname, 'client', 'build');
+const buildPath = path_join(__dirname, '../client/build');
 app.use(express.static(buildPath));
 
 app.use(cors({
