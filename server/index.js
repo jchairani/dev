@@ -50,6 +50,6 @@ app.use((err,req,res,next) => {
     })
 })
 
-app.listen(8000,()=>{
-    console.log("Listening on port 8000");
+app.listen(process.env.PORT || 3001,()=>{
+    console.log(`Listening on port ${process.env.PORT}`);
 })
