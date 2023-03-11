@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 
 const readsRoute = require('./routes/read');
 const userRoute = require('./routes/user');
@@ -38,6 +39,10 @@ app.use(cors({
 app.use('/api/reads',readsRoute);
 app.use('/api/user',userRoute);
 app.use('/api/auth',authRoute);
+
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 
 app.use((err,req,res,next) => {
     const errorStatus = err.status || 500;
