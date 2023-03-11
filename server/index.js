@@ -40,9 +40,8 @@ app.use('/api/reads',readsRoute);
 app.use('/api/user',userRoute);
 app.use('/api/auth',authRoute);
 
-app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+const buildPath = path.join(__dirname, '../client/build');
+app.use(express.static(buildPath));
 
 app.use((err,req,res,next) => {
     const errorStatus = err.status || 500;
