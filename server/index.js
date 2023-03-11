@@ -30,6 +30,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const buildPath = path.join(__dirname, '../client/build');
+app.use(express.static(buildPath));
+
 app.use(cors({
     credentials:true,
     origin: "http://localhost:3000",
@@ -39,9 +42,6 @@ app.use(cors({
 app.use('/api/reads',readsRoute);
 app.use('/api/user',userRoute);
 app.use('/api/auth',authRoute);
-
-const buildPath = path.join(__dirname, '../client/build');
-app.use(express.static(buildPath));
 
 app.use((err,req,res,next) => {
     const errorStatus = err.status || 500;
