@@ -30,6 +30,10 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+app.get('*', (_req, res) => {
+    res.sendFile(__dirname + "../client/build/index.html");
+});
+
 const buildPath = path.join(__dirname, '../client/build');
 app.use(express.static(buildPath));
 
