@@ -60,8 +60,7 @@ export default function AdminEdit() {
       };
       
       await axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
+        .then(function () {
           alert.open({
             message: "Post successfuly edited",
             buttons: [
