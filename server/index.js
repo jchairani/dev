@@ -39,9 +39,9 @@ app.use(cors({
     optionsSuccessStatus: 200,
 }));
 
-app.use('/api/reads',readsRoute);
-app.use('/api/user',userRoute);
-app.use('/api/auth',authRoute);
+app.use('/reads',readsRoute);
+app.use('/user',userRoute);
+app.use('/auth',authRoute);
 
 app.use((err,req,res,next) => {
     const errorStatus = err.status || 500;
