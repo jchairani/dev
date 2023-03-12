@@ -10,7 +10,7 @@ export default function AdminContent(){
         try{
             await axios.get(`/reads`).then(res=>setData(res.data));
         }catch(err){
-            console.log("Error");
+            console.log(err);
         }
     }
 

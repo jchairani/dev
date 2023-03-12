@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
-import './style.css';
 
 const CardItem = ({item}) => {
     const navigate = useNavigate();

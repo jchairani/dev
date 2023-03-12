@@ -109,7 +109,6 @@ export default function AdminEdit() {
 
     styleBigBox();
     fetchData();
-    console.log(data);
   },[]);
 
 

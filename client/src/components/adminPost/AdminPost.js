@@ -46,7 +46,6 @@ export default function AdminPost() {
     
     axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
       alert.open({
         message: "Post successfuly created",
         buttons: [
@@ -72,7 +71,6 @@ export default function AdminPost() {
 
 
   useEffect(() => {
-    console.log(document.cookie);
     const myText = document.getElementById("contentText");
     myText.style.cssText = `height: ${myText.scrollHeight}px; overflow:hidden`;
     myText.addEventListener("input", function () {

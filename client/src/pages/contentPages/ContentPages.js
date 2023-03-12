@@ -22,7 +22,6 @@ function ContentPage() {
 
     useEffect(() => {
         fetchData(id);
-        console.log(id);
 
     }, [])
 

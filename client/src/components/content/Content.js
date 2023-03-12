@@ -10,13 +10,12 @@ export default function Content(){
         try{
             await axios.get(`/reads`).then(res=>setData(res.data));
         }catch(err){
-            console.log("Error");
+            console.log(err);
         }
     }
 
     useEffect(() => {
         fetchData();
-        console.log(data);
     },[0])
 
     return (
