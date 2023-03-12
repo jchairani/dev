@@ -2,8 +2,7 @@ import Header from '../../components/header/Header'
 import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
-import axios from 'axios';
-
+import instance from "../../utils/api_instance";
 
 function ContentPage() {
     const location = useLocation();
@@ -11,7 +10,7 @@ function ContentPage() {
     const [data, setData] = useState();
     const fetchData = async (idx) => {
         try {
-            await axios.get(`/reads/${idx}`)
+            await instance.get(`/reads/${idx}`)
                 .then(res => {
                     setData(res.data);
                 });
@@ -22,7 +21,6 @@ function ContentPage() {
 
     useEffect(() => {
         fetchData(id);
-
     }, [])
 
     return (

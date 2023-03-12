@@ -2,11 +2,10 @@ import BIC from "../../images/bic_logo.png";
 import { Link } from "react-router-dom";
 import "../adminPost/adminPostStyle.css";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios';
-import { AlertProvider, useAlert } from 'react-alert-with-buttons';
+import { useAlert } from 'react-alert-with-buttons';
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import instance from "../../utils/api_instance";
 
 export default function AdminEdit() {
   const [description, setDescription] = useState();
@@ -28,10 +27,9 @@ export default function AdminEdit() {
       reading: '',
       title: '',
       description: '',
-      dates: new Date().toISOString().substring(0,10)
+      dates: new Date().toISOString().substring(0, 10)
     });
   };
-
 
   const editForm = async () => {
     setData({
@@ -41,54 +39,51 @@ export default function AdminEdit() {
       dates: date
     })
 
+    var newData = JSON.stringify({
+      "title": title,
+      "reading": reading,
+      "description": description,
+      "dates": date
+    });
 
-      var newData = JSON.stringify({
-        "title": title,
-        "reading": reading,
-        "description": description,
-        "dates": date
-      });
+    var config = {
+      method: 'put',
+      maxBodyLength: Infinity,
+      url: `/reads/${id}`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: newData
+    };
 
-      var config = {
-        method: 'put',
-        maxBodyLength: Infinity,
-        url: `/reads/${id}`,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: newData
-      };
-      
-      await axios(config)
-        .then(function () {
-          alert.open({
-            message: "Post successfuly edited",
-            buttons: [
-              {
-                label: "OK",
-                onClick: () => {
-                  alert.close();
-                },
-                style: {
-                  backgroundColor: "blue",
-                  borderRadius: 20,
-                  color: "white"
-                }
+    await instance(config)
+      .then(function () {
+        alert.open({
+          message: "Post successfuly edited",
+          buttons: [
+            {
+              label: "OK",
+              onClick: () => {
+                alert.close();
+              },
+              style: {
+                backgroundColor: "blue",
+                borderRadius: 20,
+                color: "white"
               }
-            ]
-          })
-          navigate("/adminMain");
+            }
+          ]
         })
-        .catch(function (error) {
-          console.log(error);
-        });
-      
-    
+        navigate("/adminMain");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   const fetchData = async () => {
     try {
-      await axios.get(`/reads/${id}`)
+      await instance.get(`/reads/${id}`)
         .then(res => setData(res.data))
     } catch (err) {
       console.log(err);
@@ -105,11 +100,9 @@ export default function AdminEdit() {
   }
 
   useEffect(() => {
-
     styleBigBox();
     fetchData();
-  },[]);
-
+  }, []);
 
   return (
     <div className="text-center">

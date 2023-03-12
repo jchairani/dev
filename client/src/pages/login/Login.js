@@ -1,8 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import instance from "../../utils/api_instance";
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -12,7 +11,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('/auth/login',{username,password},{
+            await instance.post('/auth/login',{username,password},{
                 headers:{'Content-Type' : 'application/json'},
                 withCredentials:true
             })

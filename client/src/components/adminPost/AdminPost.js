@@ -1,19 +1,18 @@
 import BIC from "../../images/bic_logo.png";
 import { Link } from "react-router-dom";
 import "../adminPost/adminPostStyle.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from 'axios';
-import {AlertProvider, useAlert} from 'react-alert-with-buttons';
-import { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom';
 
+import { useAlert } from 'react-alert-with-buttons';
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import instance from "../../utils/api_instance";
 
 export default function AdminPost() {
   const [description, setDescription] = useState();
   const [reading, setReading] = useState();
   const [title, setTitle] = useState();
-  const [date, setDate] = useState(new Date().toISOString().substring(0,10));
+  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
 
   const navigate = useNavigate();
   const alert = useAlert();
@@ -32,41 +31,43 @@ export default function AdminPost() {
       "description": description,
       "dates": date
     });
-    
+
     var config = {
       method: 'post',
-    maxBodyLength: Infinity,
+      maxBodyLength: Infinity,
       url: '/reads/create',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json'
       },
-      data : data,
+      data: data,
       withCredentials: true,
     };
-    
-    axios(config)
-    .then(function (response) {
-      alert.open({
-        message: "Post successfuly created",
-        buttons: [
-          {label: "OK",
-        onClick: () => {
-          alert.close();
-        },
-      style: {
-        backgroundColor: "blue",
-        borderRadius : 20,
-        color : "white"
-      }}
-        ]
-      })
-      navigate("/adminLanding");
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
 
-    
+    instance(config)
+      .then(function (response) {
+        alert.open({
+          message: "Post successfuly created",
+          buttons: [
+            {
+              label: "OK",
+              onClick: () => {
+                alert.close();
+              },
+              style: {
+                backgroundColor: "blue",
+                borderRadius: 20,
+                color: "white"
+              }
+            }
+          ]
+        })
+        navigate("/adminLanding");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
   }
 
 
@@ -78,10 +79,10 @@ export default function AdminPost() {
       this.style.height = `${this.scrollHeight}px`;
     });
 
-    if(!document.cookie){
+    if (!document.cookie) {
       navigate("/login");
     }
-    
+
   });
 
   return (
@@ -114,7 +115,7 @@ export default function AdminPost() {
         </div>
         <hr></hr>
       </header>
-      
+
       <div className="container">
         <button className="mb-3 mx-2 btn btn-outline-dark" onClick={resetForm}>
           Reset
@@ -148,10 +149,10 @@ export default function AdminPost() {
           </div>
           <div className="form-group">
             <input type="date"
-            value={date}
-            className="col-7 form-control-lg mb-4 border border-dark rounded"
-            
-            onChange={((e) => setDate(e.target.value))} />
+              value={date}
+              className="col-7 form-control-lg mb-4 border border-dark rounded"
+
+              onChange={((e) => setDate(e.target.value))} />
             {/* <DatePicker
               dateFormat="dd//MM/yyyy"
               selected={date}

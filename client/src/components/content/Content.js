@@ -1,14 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import {useEffect, useState} from 'react';
 import CardItem from '../cardItem/CardItem';
-import axios from 'axios';
+import instance from "../../utils/api_instance";
+
 export default function Content(){
 
     const [data,setData] = useState([]);
 
     const fetchData = async() => {
         try{
-            await axios.get(`/reads`).then(res=>setData(res.data));
+            await instance.get(`/reads`).then(res=>setData(res.data));
         }catch(err){
             console.log(err);
         }

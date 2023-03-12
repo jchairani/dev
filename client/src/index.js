@@ -8,7 +8,7 @@ import AdminLanding from './pages/adminLanding/AdminLanding';
 import AdminPost from './components/adminPost/AdminPost';
 import AdminEdit from './components/adminPost/AdminEdit';
 import { AlertProvider } from 'react-alert-with-buttons';
-import ContentPage from './pages/contentPages/ContentPages';
+import ContentPage from './pages/contentPage/ContentPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
