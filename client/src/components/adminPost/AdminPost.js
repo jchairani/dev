@@ -36,7 +36,7 @@ export default function AdminPost() {
     var config = {
       method: 'post',
     maxBodyLength: Infinity,
-      url: 'http://localhost:8000/api/reads/create',
+      url: '/reads/create',
       headers: { 
         'Content-Type': 'application/json'
       },
