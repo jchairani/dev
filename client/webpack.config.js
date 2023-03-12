@@ -7,9 +7,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.js',
-    publicPath: '/',
   },
   devServer: {
+    magicHtml: true,
     historyApiFallback: true,
   },
   module: {
@@ -31,7 +31,8 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
+      publicPath: '/',
     })
   ]
 };
